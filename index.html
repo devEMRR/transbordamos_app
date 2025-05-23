@@ -20,7 +20,7 @@
         body {
             margin: 0;
             font-family: var(--font-family);
-            background: linear-gradient(135deg, #6c63ff, #4a47c1);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             min-height: 100vh;
             color: var(--text-color);
             min-height: 100vh;
@@ -36,6 +36,7 @@
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: #fff;
             padding: 20px;
+
             box-sizing: border-box;
         }
 
@@ -48,6 +49,7 @@
 
         #login-screen h2 {
             margin-bottom: 24px;
+            color: white;
         }
 
         #login-screen form {
@@ -127,17 +129,18 @@
         }
 
         header .logo {
-            font-size: 2.4rem;
-            font-weight: 900;
-            color: var(--primary-color);
-            user-select: none;
+            background: linear-gradient(90deg,
+                    red, orange, yellow, green, blue, indigo, violet);
+            color: white;
+            font-weight: bold;
+            font-size: 2em;
         }
 
         header p {
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1.7rem;
             margin-top: 6px;
-            color: var(--secondary-dark);
+            color: white;
         }
 
         nav {
@@ -189,9 +192,14 @@
         }
 
         /* GRÁFICO */
-        #grafico {
-            max-width: 100%;
-            height: 320px;
+        .dados {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .info {
+            margin-bottom: 90px;
         }
 
         /* FORMULÁRIOS */
@@ -364,7 +372,7 @@
 
     <!-- TELA LOGIN/CADASTRO -->
     <div id="login-screen">
-        <div class="logo">TRANSCOM</div>
+        <div class="logo">TRANSBORDAMOS</div>
         <h2>Bem-vindo(a) à Comunidade Trans</h2>
 
         <form id="loginForm">
@@ -407,36 +415,57 @@
     <div id="app" role="main" aria-label="Conteúdo do app">
 
         <header>
-            <div class="logo">TRANSCOM</div>
+            <div class="logo">TRANSBORDAMOS</div>
             <p>Comunidade Trans - Apoio e Informação</p>
         </header>
 
         <nav aria-label="Navegação principal">
-            <a href="#mapa" class="active">Mapa</a>
-            <a href="#grafico">Gráfico</a>
+            <a href="#mapa" class="active">Mapeamento</a>
             <a href="#agendamentos">Agendamentos</a>
-            <a href="#cadastro">Cadastro</a>
+            <a href="#cadastro">Dados Cadastrais</a>
         </nav>
 
-        <section id="mapa" aria-label="Mapa de vulnerabilidades">
-            <h2>Mapa de São José dos Campos</h2>
-            <div id="mapa-container">
-                <div id="mapa"></div>
+        <section id="mapa" class="card">
+            <h2>Mapa da Comunidade</h2>
+            <p>Visualize a presença da comunidade trans em São José dos Campos</p>
+            <div class="mapa-wrapper">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3658.6900884358294!2d-45.88314298538561!3d-23.50897716552671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc31f7d8c7687d%3A0xb08b4bdb51d05cf6!2sSão%20José%20dos%20Campos%2C%20SP!5e0!3m2!1spt-BR!2sbr!4v1680982731254!5m2!1spt-BR!2sbr"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
             </div>
+            <div class="dados">
+                <h1>População Trans em Minha Cidade</h1>
+
+                <div class="info">
+                    <h2>Distribuição por Faixa Etária</h2>
+                    <canvas id="idadeChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="info">
+                    <h2>Identidade de Gênero</h2>
+                    <canvas id="generoChart" width="400" height="200"></canvas>
+                </div>
+
+                <div class="info">
+                    <h2>Acesso a Serviços de Saúde</h2>
+                    <canvas id="saudeChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+
         </section>
 
-        <section id="grafico" aria-label="Gráfico de vulnerabilidades">
-            <h2>Gráfico de vulnerabilidades por bairro</h2>
-            <div id="grafico"></div>
-        </section>
 
         <section id="agendamentos" aria-label="Agendamentos e atendimentos">
             <h2>Agendamentos e Atendimentos</h2>
             <h3>Próximos Agendamentos</h3>
             <ul id="agendamentos-list" aria-live="polite" aria-relevant="additions">
-                <!-- Agendamentos listados aqui -->
+                <li>Maria - Psicólogo/a em 25/06/2025</li>
+                <li>João - Médico/a em 27/06/2025</li>
+                <li>Ana - Advogado/a em 01/07/2025</li>
             </ul>
 
+            <ul id="agendamentos-list"></ul>
             <h3>Registrar Atendimento</h3>
             <form id="atendimentoForm">
                 <label for="atendimentoNome">Nome do Usuário</label>
@@ -483,9 +512,11 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         const loginScreen = document.getElementById('login-screen');
         const app = document.getElementById('app');
+
 
         // Alternar entre login e cadastro
         document.getElementById('showCadastro').addEventListener('click', () => {
@@ -602,31 +633,6 @@
             document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
             document.getElementById('mapa').style.display = 'block';
 
-            // Inicialização do mapa Leaflet
-            let mapa = null;
-
-            function mostrarSecao(id) {
-                document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
-                const sec = document.getElementById(id);
-                sec.style.display = 'block';
-
-                if (id === 'mapa') {
-                    if (!mapa) {
-                        // Inicializa mapa só na primeira vez que abre
-                        mapa = L.map('mapa').setView([-23.1896, -45.8842], 13);
-                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                            maxZoom: 18,
-                            attribution: '© OpenStreetMap'
-                        }).addTo(mapa);
-                        L.marker([-23.1896, -45.8842]).addTo(mapa).bindPopup('São José dos Campos').openPopup();
-                    } else {
-                        // Se já inicializou, apenas atualiza o tamanho
-                        setTimeout(() => {
-                            mapa.invalidateSize();
-                        }, 200); // pequeno delay para garantir que container está visível
-                    }
-                }
-            }
 
             // Alterar o listener dos links para usar essa função
             const navLinks = document.querySelectorAll('nav a');
@@ -701,6 +707,71 @@
                 atendimentoForm.reset();
             });
         }
+
+        const idadeCtx = document.getElementById('idadeChart');
+        new Chart(idadeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['13-17', '18-24', '25-34', '35-44', '45+'],
+                datasets: [{
+                    label: 'Número de Pessoas',
+                    data: [50, 120, 80, 40, 15],
+                    backgroundColor: '#6c63ff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: false
+                    }
+                }
+            }
+        });
+
+        const generoCtx = document.getElementById('generoChart');
+        new Chart(generoCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Mulher Trans', 'Homem Trans', 'Não-binárie'],
+                datasets: [{
+                    label: 'Distribuição',
+                    data: [45, 30, 25],
+                    backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56']
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        const saudeCtx = document.getElementById('saudeChart');
+        new Chart(saudeCtx, {
+            type: 'line',
+            data: {
+                labels: ['2019', '2020', '2021', '2022', '2023'],
+                datasets: [{
+                    label: '% com Acesso a Saúde Especializada',
+                    data: [20, 35, 45, 55, 65],
+                    fill: false,
+                    borderColor: '#4bc0c0',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Cria gráficos quando a aba "graficos" for clicada
+        navLinks.forEach(link => {
+            link.addEventListener('click', e => {
+                if (e.target.getAttribute('href') === '#graficos') {
+                    setTimeout(criarGraficos, 200);
+                }
+            });
+        });
     </script>
 </body>
 
