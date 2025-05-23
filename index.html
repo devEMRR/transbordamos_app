@@ -41,7 +41,7 @@
         }
 
         #login-screen .logo {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 8px;
             user-select: none;
@@ -133,12 +133,12 @@
                     red, orange, yellow, green, blue, indigo, violet);
             color: white;
             font-weight: bold;
-            font-size: 2em;
+            font-size: 3.8em;
         }
 
         header p {
             font-weight: 500;
-            font-size: 1.7rem;
+            font-size: 1.3rem;
             margin-top: 6px;
             color: white;
         }
@@ -183,6 +183,64 @@
             margin-bottom: 18px;
         }
 
+        .hamburger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            background: #524fc1;
+        }
+
+        .menu a {
+            color: white;
+            padding: 15px;
+            text-decoration: none;
+        }
+
+        .menu a:hover {
+            background: #3e3aaf;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 999;
+            }
+
+            .menu {
+                display: none;
+                flex-direction: column;
+                background: #524fc1;
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                width: 200px;
+                border-radius: 10px;
+            }
+
+            .menu.show {
+                display: flex;
+            }
+
+            .menu a {
+                padding: 15px;
+                border-bottom: 1px solid #3e3aaf;
+            }
+        }
+
         /* MAPA */
         #mapa-container {
             height: 320px;
@@ -212,6 +270,7 @@
 
         form input[type="text"],
         form input[type="email"],
+        input[type="password"],
         form select,
         form textarea {
             width: 100%;
@@ -226,6 +285,7 @@
 
         form input[type="text"]:focus,
         form input[type="email"]:focus,
+        input[type="password"],
         form select:focus,
         form textarea:focus {
             border-color: var(--secondary-color);
@@ -379,8 +439,8 @@
             <label for="loginNome">Nome Social</label>
             <input type="text" id="loginNome" placeholder="Seu nome social" required />
 
-            <label for="loginPronome">Pronome</label>
-            <input type="text" id="loginPronome" placeholder="Ex: ele, ela, elu..." required />
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" required />
 
             <button type="submit">Entrar</button>
         </form>
@@ -394,8 +454,11 @@
             <label for="cadPronome">Pronome</label>
             <input type="text" id="cadPronome" placeholder="Ex: ele, ela, elu..." required />
 
-            <label for="cadLocalizacao">Localização</label>
-            <input type="text" id="cadLocalizacao" placeholder="Ex: São José dos Campos" required />
+            <label for="cadLocalizacao">Bairro</label>
+            <input type="text" id="cadLocalizacao" placeholder="Ex: Jardim Satélite..." required />
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" required />
 
             <label>Necessidades (marque ao menos uma):</label>
             <label><input type="checkbox" name="necessidades" value="Saúde" /> Saúde</label>
@@ -419,7 +482,8 @@
             <p>Comunidade Trans - Apoio e Informação</p>
         </header>
 
-        <nav aria-label="Navegação principal">
+        <button class="hamburger" aria-label="Abrir menu">&#9776;</button>
+        <nav class="menu" aria-label="Navegação principal">
             <a href="#mapa" class="active">Mapeamento</a>
             <a href="#agendamentos">Agendamentos</a>
             <a href="#cadastro">Dados Cadastrais</a>
@@ -633,6 +697,12 @@
             document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
             document.getElementById('mapa').style.display = 'block';
 
+            const hamburger = document.querySelector('.hamburger');
+            const menu = document.querySelector('.menu');
+
+            hamburger.addEventListener('click', () => {
+                menu.classList.toggle('show');
+            });
 
             // Alterar o listener dos links para usar essa função
             const navLinks = document.querySelectorAll('nav a');
