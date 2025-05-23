@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comunidade Trans - App</title>
+    <style>
+        :root {
+            --primary-color: #6C63FF;
+            --secondary-color: #FF6584;
+            --primary-dark: #4B45B4;
+            --secondary-dark: #D43D62;
+            --background-color: #f8f9fa;
+            --text-color: #333;
+            --border-radius: 8px;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, #6c63ff, #4a47c1);
+            min-height: 100vh;
+            color: var(--text-color);
+            min-height: 100vh;
+        }
+
+        /* --- LOGIN/CADASTRO --- */
+        #login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #login-screen .logo {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            user-select: none;
+        }
+
+        #login-screen h2 {
+            margin-bottom: 24px;
+        }
+
+        #login-screen form {
+            background: #fff;
+            padding: 30px 24px;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 360px;
+            box-sizing: border-box;
+            color: var(--text-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+        }
+
+        #login-screen form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        #login-screen form input[type="text"],
+        #login-screen form input[type="email"],
+        #login-screen form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            border: 1.8px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #login-screen form input[type="text"]:focus,
+        #login-screen form input[type="email"]:focus,
+        #login-screen form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        #login-screen form button {
+            background-color: var(--primary-color);
+            border: none;
+            color: #fff;
+            font-weight: 700;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-screen form button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .switch-mode {
+            font-size: 0.9rem;
+            color: #eee;
+            cursor: pointer;
+            user-select: none;
+            text-decoration: underline;
+            margin-top: 6px;
+        }
+
+        /* --- APP --- */
+        #app {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px 20px 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        header .logo {
+            font-size: 2.4rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            user-select: none;
+        }
+
+        header p {
+            font-weight: 500;
+            font-size: 1.1rem;
+            margin-top: 6px;
+            color: var(--secondary-dark);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-dark);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 24px;
+            background-color: #e0e0ff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            user-select: none;
+        }
+
+        nav a.active,
+        nav a:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        section {
+            background: #fff;
+            padding: 20px 24px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+            margin-bottom: 32px;
+        }
+
+        section h2 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        /* MAPA */
+        #mapa-container {
+            height: 320px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* GRÁFICO */
+        #grafico {
+            max-width: 100%;
+            height: 320px;
+        }
+
+        /* FORMULÁRIOS */
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1.6px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        form input[type="text"]:focus,
+        form input[type="email"]:focus,
+        form select:focus,
+        form textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        form button.button {
+            background-color: var(--secondary-color);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button.button:hover {
+            background-color: var(--secondary-dark);
+        }
+
+        /* Botão Preciso de Ajuda */
+        #helpBtn {
+            position: fixed;
+            bottom: 22px;
+            right: 22px;
+            background-color: var(--secondary-color);
+            color: white;
+            font-weight: 700;
+            padding: 14px 22px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 101, 132, 0.6);
+            transition: background-color 0.3s ease;
+            user-select: none;
+            z-index: 1000;
+        }
+
+        #helpBtn:hover {
+            background-color: var(--secondary-dark);
+        }
+
+        /* Modal de ajuda */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.45);
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 24px 32px;
+            border-radius: var(--border-radius);
+            max-width: 480px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            margin-bottom: 18px;
+            color: var(--primary-dark);
+        }
+
+        .close {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--secondary-color);
+            cursor: pointer;
+            user-select: none;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: var(--secondary-dark);
+        }
+
+        /* AGENDAMENTOS */
+        #agendamentos-list {
+            list-style: none;
+            padding-left: 0;
+            max-height: 240px;
+            overflow-y: auto;
+            border: 1.6px solid #ccc;
+            border-radius: 8px;
+        }
+
+        #agendamentos-list li {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        #agendamentos-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            #login-screen form {
+                padding: 20px 18px;
+            }
+
+            header .logo {
+                font-size: 1.8rem;
+            }
+
+            nav {
+                gap: 8px;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+
+            #mapa-container,
+            #grafico {
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TELA LOGIN/CADASTRO -->
+    <div id="login-screen">
+        <div class="logo">TRANSCOM</div>
+        <h2>Bem-vindo(a) à Comunidade Trans</h2>
+
+        <form id="loginForm">
+            <label for="loginNome">Nome Social</label>
+            <input type="text" id="loginNome" placeholder="Seu nome social" required />
+
+            <label for="loginPronome">Pronome</label>
+            <input type="text" id="loginPronome" placeholder="Ex: ele, ela, elu..." required />
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="switch-mode" id="showCadastro">Não tem cadastro? Clique aqui para se cadastrar</div>
+
+        <form id="cadastroForm" style="display:none; margin-top: 20px;">
+            <label for="cadNome">Nome Social</label>
+            <input type="text" id="cadNome" placeholder="Seu nome social" required />
+
+            <label for="cadPronome">Pronome</label>
+            <input type="text" id="cadPronome" placeholder="Ex: ele, ela, elu..." required />
+
+            <label for="cadLocalizacao">Localização</label>
+            <input type="text" id="cadLocalizacao" placeholder="Ex: São José dos Campos" required />
+
+            <label>Necessidades (marque ao menos uma):</label>
+            <label><input type="checkbox" name="necessidades" value="Saúde" /> Saúde</label>
+            <label><input type="checkbox" name="necessidades" value="Psicológico" /> Apoio psicológico</label>
+            <label><input type="checkbox" name="necessidades" value="Jurídico" /> Apoio jurídico</label>
+            <label><input type="checkbox" name="necessidades" value="Moradia" /> Moradia</label>
+            <label><input type="checkbox" name="necessidades" value="Emprego" /> Emprego</label>
+
+            <button type="submit" class="button">Cadastrar</button>
+        </form>
+
+        <div class="switch-mode" id="showLogin" style="display:none; margin-top: 16px; color:#eee; cursor:pointer;">Já
+            tem cadastro? Clique aqui para fazer login</div>
+    </div>
+
+    <!-- APP -->
+    <div id="app" role="main" aria-label="Conteúdo do app">
+
+        <header>
+            <div class="logo">TRANSCOM</div>
+            <p>Comunidade Trans - Apoio e Informação</p>
+        </header>
+
+        <nav aria-label="Navegação principal">
+            <a href="#mapa" class="active">Mapa</a>
+            <a href="#grafico">Gráfico</a>
+            <a href="#agendamentos">Agendamentos</a>
+            <a href="#cadastro">Cadastro</a>
+        </nav>
+
+        <section id="mapa" aria-label="Mapa de vulnerabilidades">
+            <h2>Mapa de São José dos Campos</h2>
+            <div id="mapa-container">
+                <div id="mapa"></div>
+            </div>
+        </section>
+
+        <section id="grafico" aria-label="Gráfico de vulnerabilidades">
+            <h2>Gráfico de vulnerabilidades por bairro</h2>
+            <div id="grafico"></div>
+        </section>
+
+        <section id="agendamentos" aria-label="Agendamentos e atendimentos">
+            <h2>Agendamentos e Atendimentos</h2>
+            <h3>Próximos Agendamentos</h3>
+            <ul id="agendamentos-list" aria-live="polite" aria-relevant="additions">
+                <!-- Agendamentos listados aqui -->
+            </ul>
+
+            <h3>Registrar Atendimento</h3>
+            <form id="atendimentoForm">
+                <label for="atendimentoNome">Nome do Usuário</label>
+                <input type="text" id="atendimentoNome" placeholder="Nome do usuário atendido" required />
+
+                <label for="atendimentoData">Data do Atendimento</label>
+                <input type="date" id="atendimentoData" required />
+
+                <label for="atendimentoTipo">Tipo de Atendimento</label>
+                <select id="atendimentoTipo" required>
+                    <option value="">Selecione...</option>
+                    <option value="Saúde">Saúde</option>
+                    <option value="Psicológico">Apoio psicológico</option>
+                    <option value="Jurídico">Apoio jurídico</option>
+                    <option value="Moradia">Moradia</option>
+                    <option value="Emprego">Emprego</option>
+                    <option value="Outro">Outro</option>
+                </select>
+
+                <label for="atendimentoDescricao">Descrição do Atendimento</label>
+                <textarea id="atendimentoDescricao" rows="4" placeholder="Detalhes do atendimento" required></textarea>
+
+                <button type="submit" class="button">Registrar Atendimento</button>
+            </form>
+        </section>
+
+        <section id="cadastro" aria-label="Cadastro de usuário">
+            <h2>Meu Cadastro</h2>
+            <p id="usuarioInfo">Carregando informações...</p>
+        </section>
+    </div>
+
+    <button id="helpBtn" aria-label="Preciso de ajuda">Preciso de ajuda</button>
+
+    <div id="helpModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle"
+        aria-describedby="helpDesc">
+        <div class="modal-content">
+            <span class="close" role="button" tabindex="0" aria-label="Fechar">&times;</span>
+            <h3 id="helpTitle">Ajuda e Suporte</h3>
+            <p id="helpDesc">Se precisar de ajuda, entre em contato com nossa equipe pelo telefone (12) 99999-9999 ou
+                envie um e-mail para suporte@transcom.org.</p>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const loginScreen = document.getElementById('login-screen');
+        const app = document.getElementById('app');
+
+        // Alternar entre login e cadastro
+        document.getElementById('showCadastro').addEventListener('click', () => {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('cadastroForm').style.display = 'block';
+            document.getElementById('showCadastro').style.display = 'none';
+            document.getElementById('showLogin').style.display = 'block';
+        });
+        document.getElementById('showLogin').addEventListener('click', () => {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('cadastroForm').style.display = 'none';
+            document.getElementById('showCadastro').style.display = 'block';
+            document.getElementById('showLogin').style.display = 'none';
+        });
+
+        // Dados do usuário
+        let usuario = null;
+
+        // Login fictício
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('loginNome').value.trim();
+            const pronome = document.getElementById('loginPronome').value.trim();
+
+            if (!nome || !pronome) {
+                alert('Por favor, preencha nome e pronome.');
+                return;
+            }
+            usuario = { nome, pronome };
+            entrarNoApp();
+        });
+
+        // Cadastro fictício
+        document.getElementById('cadastroForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const nome = document.getElementById('cadNome').value.trim();
+            const pronome = document.getElementById('cadPronome').value.trim();
+            const localizacao = document.getElementById('cadLocalizacao').value.trim();
+            const checkboxes = document.querySelectorAll('input[name="necessidades"]:checked');
+            const necessidades = Array.from(checkboxes).map(c => c.value);
+
+            if (!nome || !pronome || !localizacao || necessidades.length === 0) {
+                alert('Por favor, preencha todos os campos e selecione ao menos uma necessidade.');
+                return;
+            }
+            usuario = { nome, pronome, localizacao, necessidades };
+            entrarNoApp();
+        });
+
+        function entrarNoApp() {
+            loginScreen.style.display = 'none';
+            app.style.display = 'block';
+            preencherCadastro();
+            iniciarApp();
+        }
+
+        // Preencher seção cadastro com dados do usuário
+        function preencherCadastro() {
+            const infoEl = document.getElementById('usuarioInfo');
+            if (!usuario) {
+                infoEl.textContent = 'Usuário não encontrado.';
+                return;
+            }
+            let html = `<strong>Nome social:</strong> ${usuario.nome}<br>`;
+            html += `<strong>Pronome:</strong> ${usuario.pronome}<br>`;
+            if (usuario.localizacao) html += `<strong>Localização:</strong> ${usuario.localizacao}<br>`;
+            if (usuario.necessidades) html += `<strong>Necessidades:</strong> ${usuario.necessidades.join(', ')}`;
+            infoEl.innerHTML = html;
+        }
+
+        // Ajuda - modal
+        const helpBtn = document.getElementById('helpBtn');
+        const helpModal = document.getElementById('helpModal');
+        const closeModalBtn = document.querySelector('.close');
+
+        helpBtn.addEventListener('click', () => {
+            helpModal.style.display = 'block';
+            helpModal.querySelector('.close').focus();
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            helpModal.style.display = 'none';
+            helpBtn.focus();
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === helpModal) {
+                helpModal.style.display = 'none';
+                helpBtn.focus();
+            }
+        });
+
+        // Navegação entre seções do app
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                const targetId = link.getAttribute('href').slice(1);
+                document.querySelectorAll('section').forEach(sec => {
+                    sec.style.display = 'none';
+                });
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+            });
+        });
+
+        // Inicializar app
+        function iniciarApp() {
+            // Mostrar só a seção mapa inicialmente
+            document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
+            document.getElementById('mapa').style.display = 'block';
+
+            // Inicialização do mapa Leaflet
+            let mapa = null;
+
+            function mostrarSecao(id) {
+                document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
+                const sec = document.getElementById(id);
+                sec.style.display = 'block';
+
+                if (id === 'mapa') {
+                    if (!mapa) {
+                        // Inicializa mapa só na primeira vez que abre
+                        mapa = L.map('mapa').setView([-23.1896, -45.8842], 13);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            maxZoom: 18,
+                            attribution: '© OpenStreetMap'
+                        }).addTo(mapa);
+                        L.marker([-23.1896, -45.8842]).addTo(mapa).bindPopup('São José dos Campos').openPopup();
+                    } else {
+                        // Se já inicializou, apenas atualiza o tamanho
+                        setTimeout(() => {
+                            mapa.invalidateSize();
+                        }, 200); // pequeno delay para garantir que container está visível
+                    }
+                }
+            }
+
+            // Alterar o listener dos links para usar essa função
+            const navLinks = document.querySelectorAll('nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    const targetId = link.getAttribute('href').slice(1);
+                    mostrarSecao(targetId);
+                });
+            });
+
+
+            // Inicialização do gráfico Chart.js
+            const ctx = document.createElement('canvas');
+            document.getElementById('grafico').appendChild(ctx);
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Aquarius', 'Jardim Esplanada', 'Urbanova', 'Jardim Apolo', 'Jardim das Indústrias'],
+                    datasets: [{
+                        label: 'Número de casos',
+                        data: [12, 9, 7, 5, 11],
+                        backgroundColor: 'rgba(108, 99, 255, 0.7)',
+                        borderColor: 'rgba(108, 99, 255, 1)',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        maxBarThickness: 40,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Dados fictícios de agendamentos
+            const agendamentos = [
+                { nome: 'Alex', data: '2025-06-01', tipo: 'Saúde' },
+                { nome: 'Beatriz', data: '2025-06-03', tipo: 'Psicológico' },
+                { nome: 'Carlos', data: '2025-06-07', tipo: 'Jurídico' }
+            ];
+
+            const agendList = document.getElementById('agendamentos-list');
+            agendList.innerHTML = '';
+            agendamentos.forEach(a => {
+                const li = document.createElement('li');
+                li.textContent = `${a.data} - ${a.nome} (${a.tipo})`;
+                agendList.appendChild(li);
+            });
+
+            // Formulário registrar atendimento
+            const atendimentoForm = document.getElementById('atendimentoForm');
+            atendimentoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const nome = document.getElementById('atendimentoNome').value.trim();
+                const data = document.getElementById('atendimentoData').value;
+                const tipo = document.getElementById('atendimentoTipo').value;
+                const descricao = document.getElementById('atendimentoDescricao').value.trim();
+
+                if (!nome || !data || !tipo || !descricao) {
+                    alert('Por favor, preencha todos os campos para registrar o atendimento.');
+                    return;
+                }
+                alert(`Atendimento registrado para ${nome} em ${data} (${tipo}).`);
+                atendimentoForm.reset();
+            });
+        }
+    </script>
+</body>
+
+</html>
