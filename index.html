@@ -157,7 +157,7 @@
             font-weight: 600;
             padding: 8px 16px;
             border-radius: 24px;
-            background-color: #e0e0ff;
+            background-color: var(--primary-color);
             transition: background-color 0.3s ease, color 0.3s ease;
             user-select: none;
         }
@@ -183,6 +183,57 @@
             margin-bottom: 18px;
         }
 
+        .secao-cartilhas {
+            background: #f5f5ff;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .secao-cartilhas h2 {
+            color: #4B45B4;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .secao-cartilhas p {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .cartilhas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .cartilha {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cartilha h3 {
+            color: #6C63FF;
+            margin-bottom: 10px;
+        }
+
+        .cartilha p {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .cartilha a {
+            text-decoration: none;
+            color: white;
+            background: #6C63FF;
+            padding: 10px 15px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+
         .hamburger {
             display: none;
             font-size: 28px;
@@ -195,9 +246,17 @@
         }
 
         .menu {
-            display: flex;
-            justify-content: center;
+            display: none;
+            flex-direction: row;
+            justify-content: space-around;
             background: #524fc1;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0;
+            z-index: 1000;
+            padding: 10px 0;
         }
 
         .menu a {
@@ -239,6 +298,34 @@
                 padding: 15px;
                 border-bottom: 1px solid #3e3aaf;
             }
+        }
+
+        #menu-inferior {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #4B45B4;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #menu-inferior a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #menu-inferior a:hover {
+            background-color: #6C63FF;
+            border-radius: 8px;
         }
 
         /* MAPA */
@@ -311,20 +398,17 @@
 
         /* Botão Preciso de Ajuda */
         #helpBtn {
-            position: fixed;
-            bottom: 22px;
-            right: 22px;
             background-color: var(--secondary-color);
             color: white;
             font-weight: 700;
-            padding: 14px 22px;
+            padding: 14px 18px;
             border: none;
             border-radius: 30px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 101, 132, 0.6);
             transition: background-color 0.3s ease;
             user-select: none;
-            z-index: 1000;
+
         }
 
         #helpBtn:hover {
@@ -482,6 +566,14 @@
             <p>Comunidade Trans - Apoio e Informação</p>
         </header>
 
+        <div id="menu-inferior">
+          <nav> <a href="#mapa">Início</a>
+            <a href="#agendamentos">Agendamentos</a>
+            <a href="#cadastro">Perfil</a>
+            <button id="helpBtn" aria-label="Preciso de ajuda">SOS</button>
+          </nav> 
+        </div>
+
         <button class="hamburger" aria-label="Abrir menu">&#9776;</button>
         <nav class="menu" aria-label="Navegação principal">
             <a href="#mapa" class="active">Mapeamento</a>
@@ -489,6 +581,36 @@
             <a href="#cadastro">Dados Cadastrais</a>
         </nav>
 
+        <section id="central-informacoes" class="secao-cartilhas">
+            <h2>Central de Informações e Direitos</h2>
+            <p>Cartilhas acessíveis com explicações simples e atualizadas:</p>
+
+            <div class="cartilhas-grid">
+                <div class="cartilha">
+                    <h3>Retificação de Nome e Gênero</h3>
+                    <p>Passo a passo para mudar nome e gênero nos documentos.</p>
+                    <a href="#">Acessar cartilha</a>
+                </div>
+
+                <div class="cartilha">
+                    <h3>Direitos no SUS</h3>
+                    <p>Conheça seus direitos no sistema público de saúde.</p>
+                    <a href="#">Acessar cartilha</a>
+                </div>
+
+                <div class="cartilha">
+                    <h3>Direitos na Educação e Trabalho</h3>
+                    <p>Saiba como exigir respeito no ambiente escolar e profissional.</p>
+                    <a href="#">Acessar cartilha</a>
+                </div>
+
+                <div class="cartilha">
+                    <h3>Como Denunciar Transfobia</h3>
+                    <p>Orientações claras sobre como e onde denunciar.</p>
+                    <a href="#">Acessar cartilha</a>
+                </div>
+            </div>
+        </section>
         <section id="mapa" class="card">
             <h2>Mapa da Comunidade</h2>
             <p>Visualize a presença da comunidade trans em São José dos Campos</p>
@@ -562,7 +684,6 @@
         </section>
     </div>
 
-    <button id="helpBtn" aria-label="Preciso de ajuda">Preciso de ajuda</button>
 
     <div id="helpModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle"
         aria-describedby="helpDesc">
@@ -695,7 +816,7 @@
         function iniciarApp() {
             // Mostrar só a seção mapa inicialmente
             document.querySelectorAll('section').forEach(sec => sec.style.display = 'none');
-            document.getElementById('mapa').style.display = 'block';
+            document.getElementById('central-informacoes').style.display = 'block';
 
             const hamburger = document.querySelector('.hamburger');
             const menu = document.querySelector('.menu');
