@@ -235,15 +235,20 @@
 
 
         .hamburger {
-            display: none;
-            font-size: 28px;
-            background: none;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            cursor: pointer;
-            z-index: 1001;
-        }
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 1001;
+
+    /* Posição no canto superior direito */
+    position: fixed;  /* ou absolute, dependendo de onde você quer que ele fique preso */
+    top: 8px;         /* Ajuste esse valor conforme desejar */
+    right: 8px;       /* Ajuste esse valor conforme desejar */
+}
 
         .menu {
             display: none;
@@ -274,8 +279,8 @@
             .hamburger {
                 display: block;
                 position: absolute;
-                top: 10px;
-                right: 10px;
+                top: 6px;
+                right: 6px;
                 z-index: 999;
             }
 
@@ -398,16 +403,32 @@
 
         /* Botão Preciso de Ajuda */
         #helpBtn {
-            background-color: var(--secondary-color);
-            color: white;
-            font-weight: 700;
-            padding: 14px 18px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 101, 132, 0.6);
-            transition: background-color 0.3s ease;
-            user-select: none;
+         width: 70px;
+    height: 70px;
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 101, 132, 0.6);
+    transition: background-color 0.3s ease;
+    user-select: none;
+
+    /* Fixado no fundo da tela */
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999; /* para ficar acima dos outros elementos */
+    
+    /* Removendo padding para não distorcer o formato redondo */
+    padding: 0;
+    
+    /* Alinhando conteúdo interno se necessário */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
         }
 
@@ -562,20 +583,18 @@
     <div id="app" role="main" aria-label="Conteúdo do app">
 
         <header>
-            <div class="logo">TRANSBORDAMOS</div>
+            <div class="logo">TRANSBORDAMOS </div>
             <p>Comunidade Trans - Apoio e Informação</p>
         </header>
 
         <div id="menu-inferior">
-          <nav> <a href="#mapa">Início</a>
-            <a href="#agendamentos">Agendamentos</a>
-            <a href="#cadastro">Perfil</a>
             <button id="helpBtn" aria-label="Preciso de ajuda">SOS</button>
           </nav> 
         </div>
 
         <button class="hamburger" aria-label="Abrir menu">&#9776;</button>
         <nav class="menu" aria-label="Navegação principal">
+             <a href="#central-informacoes" class="active">Cartilhas</a>
             <a href="#mapa" class="active">Mapeamento</a>
             <a href="#agendamentos">Agendamentos</a>
             <a href="#cadastro">Dados Cadastrais</a>
